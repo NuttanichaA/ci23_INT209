@@ -1,0 +1,23 @@
+name: CI Test Pipeline 23
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs: 
+ build-and-test: 
+    runs-on: ubuntu-latest //server ที่จะใช้
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: mysql-check
+        run: ["CMD", "mysqladmin", "ping", "-h", "localhostmysql check"]
+
+      - name: app-check
+        run: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+
+      - name: nginx-check
+        run: ["CMD", "curl", "-f", "http://localhost"]
