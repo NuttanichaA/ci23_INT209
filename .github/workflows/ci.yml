@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: mysql-check
-        run: ["CMD", "mysqladmin", "ping", "-h", "localhostmysql check"]
+        run: mysqladmin ping -h localhost
 
       - name: app-check
-        run: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+        run: curl -f http://localhost:5000/health
 
       - name: nginx-check
-        run: ["CMD", "curl", "-f", "http://localhost"]
+        run: curl -f http://localhost
