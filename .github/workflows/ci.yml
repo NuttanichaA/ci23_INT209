@@ -16,11 +16,8 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose up -d
 
-      - name: Wait for services to be ready
-        run: sleep 20 # อาจปรับเวลาตามความเร็วของ service
-
       - name: Check db health (optional)
-        run: docker exec db_server mysqladmin ping -h localhost
+        run: docker exec db_server -u root --password=rootpassword mysqladmin ping -h localhost
 
       - name: Check app health
-        run: curl -f http://localhost:5000/health
+        run: curl -f http://localhost:5000
