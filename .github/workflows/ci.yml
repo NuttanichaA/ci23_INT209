@@ -15,9 +15,11 @@ jobs:
 
       - name: Set up Docker Compose
         run: docker compose up -d
-
-      - name: Check db health (optional)
-        run: docker exec db_server -u root --password=rootpassword mysqladmin ping -h localhost
+              sleep 20
 
       - name: Check app health
-        run: curl -f http://localhost:5000
+        run: docker compose exec -it web curl http://localhost:5000/api/users
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down
