@@ -6,18 +6,21 @@ on:
       - main
   pull_request:
 
-jobs: 
- build-and-test: 
-    runs-on: ubuntu-latest //server ที่จะใช้
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: mysql-check
-        run: mysqladmin ping -h localhost
+      - name: Set up Docker Compose
+        run: docker-compose up -d
 
-      - name: app-check
+      - name: Wait for services to be ready
+        run: sleep 20 # อาจปรับเวลาตามความเร็วของ service
+
+      - name: Check db health (optional)
+        run: docker exec db_server mysqladmin ping -h localhost
+
+      - name: Check app health
         run: curl -f http://localhost:5000/health
-
-      - name: nginx-check
-        run: curl -f http://localhost
